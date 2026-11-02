@@ -1,0 +1,568 @@
+{
+  "users": [
+    {
+      "id": "usr_admin_01",
+      "name": "Admin Kopi Noka",
+      "username": "admin",
+      "email": "admin@kopinoka.com",
+      "passwordHash": "admin123",
+      "role": "ADMIN",
+      "isActive": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "usr_cashier_01",
+      "name": "Rian (Kasir Shift Pagi)",
+      "username": "kasir1",
+      "email": "rian@kopinoka.com",
+      "passwordHash": "kasir123",
+      "role": "CASHIER",
+      "isActive": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "usr_cashier_02",
+      "name": "Siti (Kasir Shift Sore)",
+      "username": "kasir2",
+      "email": "siti@kopinoka.com",
+      "passwordHash": "kasir123",
+      "role": "CASHIER",
+      "isActive": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "usr_barista_01",
+      "name": "Budi (Barista Kitchen)",
+      "username": "barista",
+      "email": "barista@kopinoka.com",
+      "passwordHash": "barista123",
+      "role": "BARISTA",
+      "isActive": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    }
+  ],
+  "shifts": [
+    {
+      "id": "shf_01",
+      "name": "Shift 1 (Pagi)",
+      "startTime": "07:00",
+      "endTime": "15:00",
+      "isActive": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "shf_02",
+      "name": "Shift 2 (Sore)",
+      "startTime": "15:00",
+      "endTime": "23:00",
+      "isActive": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "shf_03",
+      "name": "Shift 3 (Malam)",
+      "startTime": "23:00",
+      "endTime": "07:00",
+      "isActive": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    }
+  ],
+  "shiftSessions": [
+    {
+      "id": "ses_sample_active_01",
+      "shiftId": "shf_01",
+      "cashierId": "usr_cashier_01",
+      "openedAt": "2026-11-02T07:15:00.000Z",
+      "openingCash": 100000,
+      "expectedCash": 140000,
+      "status": "OPEN"
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat_kopi_susu",
+      "name": "Kopi Susu Signature",
+      "description": "Kopi susu gula aren andalan Kopi Noka dengan biji arabika blend pilihan",
+      "isActive": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "cat_espresso",
+      "name": "Espresso & Klasik",
+      "description": "Kopi klasik panas dan dingin seduhan barista",
+      "isActive": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "cat_non_coffee",
+      "name": "Non-Coffee & Teh",
+      "description": "Minuman segar premium tanpa kafein",
+      "isActive": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "cat_snack",
+      "name": "Pastry & Camilan",
+      "description": "Kue pastry panggang hangat dan camilan renyah",
+      "isActive": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "prd_noka_aren",
+      "categoryId": "cat_kopi_susu",
+      "name": "Es Kopi Noka Aren",
+      "description": "Espresso ganda, susu segar lembut, dan gula aren organik khas Noka",
+      "price": 20000,
+      "imageUrl": "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=500&q=80",
+      "stockQuantity": 150,
+      "minimumStock": 20,
+      "isAvailable": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "prd_caramel_macchiato",
+      "categoryId": "cat_kopi_susu",
+      "name": "Iced Caramel Macchiato",
+      "description": "Espresso kental dengan sirup vanila dan lumuran saus karamel gurih",
+      "price": 25000,
+      "imageUrl": "https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=500&q=80",
+      "stockQuantity": 90,
+      "minimumStock": 15,
+      "isAvailable": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "prd_creamy_latte",
+      "categoryId": "cat_kopi_susu",
+      "name": "Caffe Latte Creamy",
+      "description": "Paduan espresso arabika seimbang dengan steamed milk berbusa mikro halus",
+      "price": 24000,
+      "imageUrl": "https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?w=500&q=80",
+      "stockQuantity": 100,
+      "minimumStock": 15,
+      "isAvailable": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "prd_americano",
+      "categoryId": "cat_espresso",
+      "name": "Americano (Hot / Ice)",
+      "description": "Dua shot espresso kaya aroma dengan air murni, cita rasa bersih dan kuat",
+      "price": 18000,
+      "imageUrl": "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=500&q=80",
+      "stockQuantity": 200,
+      "minimumStock": 25,
+      "isAvailable": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "prd_magic_flat_white",
+      "categoryId": "cat_espresso",
+      "name": "Magic Melbourne Flat White",
+      "description": "Double ristretto dengan velvety microfoam lembut bergaya barista Melbourne",
+      "price": 26000,
+      "imageUrl": "https://images.unsplash.com/photo-1534778101976-62847782c213?w=500&q=80",
+      "stockQuantity": 60,
+      "minimumStock": 10,
+      "isAvailable": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "prd_matcha_latte",
+      "categoryId": "cat_non_coffee",
+      "name": "Uji Matcha Latte",
+      "description": "Bubuk teh hijau matcha asli Kyoto Jepang dipadukan susu creamy",
+      "price": 26000,
+      "imageUrl": "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=500&q=80",
+      "stockQuantity": 45,
+      "minimumStock": 10,
+      "isAvailable": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "prd_dark_chocolate",
+      "categoryId": "cat_non_coffee",
+      "name": "Signature Dark Chocolate",
+      "description": "Cokelat hitam 70% kaya antioksidan dengan rasa legit pekat",
+      "price": 24000,
+      "imageUrl": "https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=500&q=80",
+      "stockQuantity": 50,
+      "minimumStock": 10,
+      "isAvailable": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "prd_earl_grey_tea",
+      "categoryId": "cat_non_coffee",
+      "name": "Artisanal Earl Grey Peach",
+      "description": "Seduhan teh hitam beraroma minyak bergamot dan aroma peach segar",
+      "price": 18000,
+      "imageUrl": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500&q=80",
+      "stockQuantity": 80,
+      "minimumStock": 15,
+      "isAvailable": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "prd_croissant_butter",
+      "categoryId": "cat_snack",
+      "name": "French Butter Croissant",
+      "description": "Pastry mentega Prancis dengan lapisan renyah berlapis-lapis",
+      "price": 22000,
+      "imageUrl": "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=500&q=80",
+      "stockQuantity": 25,
+      "minimumStock": 5,
+      "isAvailable": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "prd_cinnamon_roll",
+      "categoryId": "cat_snack",
+      "name": "Glazed Cinnamon Roll",
+      "description": "Roti gulung aroma kayu manis dengan krim keju frosting meleleh",
+      "price": 25000,
+      "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&q=80",
+      "stockQuantity": 18,
+      "minimumStock": 5,
+      "isAvailable": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "prd_truffle_fries",
+      "categoryId": "cat_snack",
+      "name": "Truffle Parmesan Fries",
+      "description": "Kentang goreng renyah bumbu minyak truffle aromatik dan taburan keju parmesan",
+      "price": 28000,
+      "imageUrl": "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500&q=80",
+      "stockQuantity": 4,
+      "minimumStock": 10,
+      "isAvailable": true,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    }
+  ],
+  "productVariants": [
+    {
+      "id": "var_large_01",
+      "productId": "prd_noka_aren",
+      "name": "Large Size",
+      "additionalPrice": 4000,
+      "isActive": true
+    },
+    {
+      "id": "var_large_02",
+      "productId": "prd_caramel_macchiato",
+      "name": "Large Size",
+      "additionalPrice": 4000,
+      "isActive": true
+    },
+    {
+      "id": "var_large_03",
+      "productId": "prd_creamy_latte",
+      "name": "Large Size",
+      "additionalPrice": 4000,
+      "isActive": true
+    },
+    {
+      "id": "var_large_04",
+      "productId": "prd_americano",
+      "name": "Large Size",
+      "additionalPrice": 3000,
+      "isActive": true
+    },
+    {
+      "id": "var_large_05",
+      "productId": "prd_matcha_latte",
+      "name": "Large Size",
+      "additionalPrice": 5000,
+      "isActive": true
+    },
+    {
+      "id": "var_large_06",
+      "productId": "prd_dark_chocolate",
+      "name": "Large Size",
+      "additionalPrice": 4000,
+      "isActive": true
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord_initial_001",
+      "orderNumber": "KN-261102-001",
+      "source": "POS",
+      "cashierId": "usr_cashier_01",
+      "shiftSessionId": "ses_sample_active_01",
+      "customerName": "Ibu Ratna",
+      "tableNumber": "04",
+      "status": "READY",
+      "paymentStatus": "PAID",
+      "subtotal": 40000,
+      "discountAmount": 0,
+      "totalAmount": 40000,
+      "notes": "Sedotan kertas",
+      "createdAt": "2026-11-02T08:30:00.000Z",
+      "updatedAt": "2026-11-02T10:52:04.909Z"
+    }
+  ],
+  "orderItems": [
+    {
+      "id": "oi_init_001",
+      "orderId": "ord_initial_001",
+      "productId": "prd_noka_aren",
+      "productNameSnapshot": "Es Kopi Noka Aren",
+      "quantity": 2,
+      "unitPriceSnapshot": 20000,
+      "discountAmount": 0,
+      "lineTotal": 40000,
+      "variantSnapshot": "Regular",
+      "customizationSnapshot": "Normal 100% | Normal Ice",
+      "notes": "Less sugar 70%"
+    }
+  ],
+  "payments": [
+    {
+      "id": "pay_init_001",
+      "orderId": "ord_initial_001",
+      "method": "CASH",
+      "provider": "TUNAI",
+      "idempotencyKey": "cash_ord_initial_001",
+      "amount": 40000,
+      "feeAmount": 0,
+      "status": "PAID",
+      "paidAt": "2026-11-02T08:30:00.000Z",
+      "receivedAmount": 50000,
+      "changeAmount": 10000,
+      "createdAt": "2026-11-02T08:30:00.000Z",
+      "updatedAt": "2026-11-02T08:30:00.000Z"
+    }
+  ],
+  "paymentEvents": [],
+  "refunds": [],
+  "printJobs": [
+    {
+      "id": "pj_init_cust_01",
+      "orderId": "ord_initial_001",
+      "printerType": "CUSTOMER_RECEIPT",
+      "jobType": "INITIAL",
+      "status": "PRINTED",
+      "attempts": 1,
+      "idempotencyKey": "print_receipt_ord_initial_001",
+      "createdAt": "2026-11-02T08:30:00.000Z",
+      "printedAt": "2026-11-02T08:30:05.000Z"
+    },
+    {
+      "id": "pj_init_barista_01",
+      "orderId": "ord_initial_001",
+      "printerType": "BARISTA_TICKET",
+      "jobType": "INITIAL",
+      "status": "PRINTED",
+      "attempts": 1,
+      "idempotencyKey": "print_barista_ord_initial_001",
+      "createdAt": "2026-11-02T08:30:00.000Z",
+      "printedAt": "2026-11-02T08:30:03.000Z"
+    }
+  ],
+  "stockMovements": [
+    {
+      "id": "sm_init_01",
+      "productId": "prd_noka_aren",
+      "orderId": "ord_initial_001",
+      "movementType": "SALE",
+      "quantityChange": -2,
+      "reason": "Penjualan pesanan #KN-261102-001",
+      "createdAt": "2026-11-02T08:30:00.000Z"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "aud_init_01",
+      "userId": "usr_cashier_01",
+      "action": "SHIFT_OPEN",
+      "entityType": "shift_sessions",
+      "entityId": "ses_sample_active_01",
+      "details": "{\"shiftId\":\"shf_01\",\"openingCash\":100000}",
+      "createdAt": "2026-11-02T07:15:00.000Z"
+    },
+    {
+      "id": "aud_init_02",
+      "userId": "usr_cashier_01",
+      "action": "ORDER_CREATED",
+      "entityType": "orders",
+      "entityId": "ord_initial_001",
+      "details": "{\"orderNumber\":\"KN-261102-001\",\"source\":\"POS\",\"total\":40000}",
+      "createdAt": "2026-11-02T08:30:00.000Z"
+    },
+    {
+      "id": "aud_1793616063987_m96e",
+      "userId": "usr_barista_01",
+      "action": "USER_LOGIN",
+      "entityType": "users",
+      "entityId": "usr_barista_01",
+      "details": "{\"username\":\"barista\",\"role\":\"BARISTA\"}",
+      "ipAddress": "::1",
+      "createdAt": "2026-11-02T10:41:03.987Z"
+    },
+    {
+      "id": "aud_1793616081319",
+      "userId": "usr_barista_01",
+      "action": "ORDER_STATUS_CHANGED",
+      "entityType": "orders",
+      "entityId": "ord_initial_001",
+      "details": "{\"from\":\"QUEUED\",\"to\":\"BREWING\",\"orderNumber\":\"KN-261102-001\"}",
+      "createdAt": "2026-11-02T10:41:21.319Z"
+    },
+    {
+      "id": "aud_1793616724909",
+      "userId": "usr_barista_01",
+      "action": "ORDER_STATUS_CHANGED",
+      "entityType": "orders",
+      "entityId": "ord_initial_001",
+      "details": "{\"from\":\"BREWING\",\"to\":\"READY\",\"orderNumber\":\"KN-261102-001\"}",
+      "createdAt": "2026-11-02T10:52:04.909Z"
+    }
+  ],
+  "paymentProviderConfigs": [
+    {
+      "id": "cfg_qris_midtrans",
+      "providerName": "MIDTRANS_QRIS",
+      "isEnabled": true,
+      "isSandbox": true,
+      "feePercentage": 0.7,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "cfg_cash",
+      "providerName": "TUNAI",
+      "isEnabled": true,
+      "isSandbox": false,
+      "feePercentage": 0,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "cfg_transfer",
+      "providerName": "BANK_TRANSFER_BCA",
+      "isEnabled": true,
+      "isSandbox": false,
+      "feePercentage": 0,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "cfg_debit",
+      "providerName": "EDC_DEBIT_KREDIT",
+      "isEnabled": true,
+      "isSandbox": false,
+      "feePercentage": 0.15,
+      "createdAt": "2026-11-02T07:00:00.000Z",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    }
+  ],
+  "appSettings": [
+    {
+      "id": "stg_1",
+      "key": "outlet_name",
+      "value": "Kopi Noka",
+      "description": "Nama Brand Outlet",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "stg_2",
+      "key": "outlet_subname",
+      "value": "Specialty Coffee & Brew Bar",
+      "description": "Sub-judul Outlet",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "stg_3",
+      "key": "outlet_address",
+      "value": "Jl. Pengayoman No. 12B, Panakkukang, Makassar",
+      "description": "Alamat Fisik Outlet",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "stg_4",
+      "key": "outlet_phone",
+      "value": "+62 811-4567-8901",
+      "description": "Nomor Kontak / WhatsApp",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "stg_5",
+      "key": "timezone",
+      "value": "Asia/Makassar",
+      "description": "Zona Waktu Operasional (WITA)",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "stg_6",
+      "key": "order_number_prefix",
+      "value": "KN",
+      "description": "Awalan Nomor Pesanan",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "stg_7",
+      "key": "cashier_max_discount_percent",
+      "value": "15",
+      "description": "Batas Maksimal Diskon Kasir (%)",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "stg_8",
+      "key": "printer_customer_paper",
+      "value": "58mm",
+      "description": "Ukuran Kertas Printer Kasir",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "stg_9",
+      "key": "printer_barista_paper",
+      "value": "80mm",
+      "description": "Ukuran Kertas Printer Barista",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "stg_10",
+      "key": "qris_mode",
+      "value": "SIMULATION",
+      "description": "Mode Integrasi QRIS (SIMULATION / PRODUCTION)",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    },
+    {
+      "id": "stg_11",
+      "key": "qris_nmid",
+      "value": "ID1020304050607",
+      "description": "NMID Resmi QRIS Kopi Noka",
+      "updatedAt": "2026-11-02T07:00:00.000Z"
+    }
+  ],
+  "metadata": {
+    "lastOrderDate": "261102",
+    "orderSequence": 1
+  }
+}

@@ -1,0 +1,372 @@
+// Prisma Schema for Kopi Noka Coffee Shop POS & Management System
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMIN
+  CASHIER
+  BARISTA
+}
+
+enum ShiftStatus {
+  OPEN
+  CLOSED
+}
+
+enum OrderSource {
+  POS
+  ONLINE
+}
+
+enum OrderStatus {
+  PENDING_PAYMENT
+  QUEUED
+  BREWING
+  READY
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  EXPIRED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  CASH
+  QRIS
+  BANK_TRANSFER
+  DEBIT_CREDIT
+}
+
+enum RefundApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum RefundExecutionStatus {
+  PENDING
+  EXECUTED
+  FAILED
+}
+
+enum PrinterType {
+  CUSTOMER_RECEIPT
+  BARISTA_TICKET
+}
+
+enum PrintJobStatus {
+  PENDING
+  PRINTED
+  FAILED
+}
+
+enum StockMovementType {
+  SALE
+  RESTOCK
+  ADJUSTMENT
+  WASTE
+  REFUND_RESTOCK
+}
+
+model User {
+  id            String         @id @default(uuid())
+  name          String
+  username      String         @unique
+  email         String?        @unique
+  passwordHash  String         @map("password_hash")
+  role          Role           @default(CASHIER)
+  isActive      Boolean        @default(true) @map("is_active")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+
+  shiftSessions ShiftSession[]
+  orders        Order[]
+  requestedRefunds Refund[]    @relation("RequestedRefunds")
+  approvedRefunds  Refund[]    @relation("ApprovedRefunds")
+  auditLogs     AuditLog[]
+  stockMovements StockMovement[]
+
+  @@map("users")
+}
+
+model Shift {
+  id          String         @id @default(uuid())
+  name        String
+  startTime   String         @map("start_time") // Format: "07:00"
+  endTime     String         @map("end_time")   // Format: "15:00"
+  isActive    Boolean        @default(true) @map("is_active")
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+
+  sessions    ShiftSession[]
+
+  @@map("shifts")
+}
+
+model ShiftSession {
+  id             String      @id @default(uuid())
+  shiftId        String      @map("shift_id")
+  cashierId      String      @map("cashier_id")
+  openedAt       DateTime    @default(now()) @map("opened_at")
+  closedAt       DateTime?   @map("closed_at")
+  openingCash    Int         @default(0) @map("opening_cash") // in IDR
+  expectedCash   Int         @default(0) @map("expected_cash")
+  actualCash     Int?        @map("actual_cash")
+  cashDifference Int?        @map("cash_difference")
+  status         ShiftStatus @default(OPEN)
+  closingNote    String?     @map("closing_note")
+
+  shift          Shift       @relation(fields: [shiftId], references: [id])
+  cashier        User        @relation(fields: [cashierId], references: [id])
+  orders         Order[]
+
+  @@map("shift_sessions")
+}
+
+model Category {
+  id          String      @id @default(uuid())
+  name        String      @unique
+  description String?
+  isActive    Boolean     @default(true) @map("is_active")
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+
+  products    Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id             String           @id @default(uuid())
+  categoryId     String           @map("category_id")
+  name           String
+  description    String?
+  price          Int              // in IDR
+  imageUrl       String?          @map("image_url")
+  stockQuantity  Int              @default(0) @map("stock_quantity")
+  minimumStock   Int              @default(5) @map("minimum_stock")
+  isAvailable    Boolean          @default(true) @map("is_available")
+  createdAt      DateTime         @default(now()) @map("created_at")
+  updatedAt      DateTime         @updatedAt @map("updated_at")
+
+  category       Category         @relation(fields: [categoryId], references: [id])
+  variants       ProductVariant[]
+  orderItems     OrderItem[]
+  stockMovements StockMovement[]
+
+  @@map("products")
+}
+
+model ProductVariant {
+  id              String   @id @default(uuid())
+  productId       String   @map("product_id")
+  name            String
+  additionalPrice Int      @default(0) @map("additional_price")
+  isActive        Boolean  @default(true) @map("is_active")
+
+  product         Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_variants")
+}
+
+model Order {
+  id              String        @id @default(uuid())
+  orderNumber     String        @unique @map("order_number") // e.g. "KN-261102-001"
+  source          OrderSource   @default(POS)
+  cashierId       String?       @map("cashier_id")
+  shiftSessionId  String?       @map("shift_session_id")
+  customerName    String?       @map("customer_name")
+  customerContact String?       @map("customer_contact")
+  tableNumber     String?       @map("table_number")
+  status          OrderStatus   @default(PENDING_PAYMENT)
+  paymentStatus   PaymentStatus @default(PENDING) @map("payment_status")
+  subtotal        Int           @default(0) // in IDR
+  discountAmount  Int           @default(0) @map("discount_amount")
+  totalAmount     Int           @default(0) @map("total_amount")
+  notes           String?
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  cashier         User?         @relation(fields: [cashierId], references: [id])
+  shiftSession    ShiftSession? @relation(fields: [shiftSessionId], references: [id])
+  items           OrderItem[]
+  payments        Payment[]
+  refunds         Refund[]
+  printJobs       PrintJob[]
+  stockMovements  StockMovement[]
+
+  @@index([orderNumber])
+  @@index([createdAt])
+  @@index([status])
+  @@map("orders")
+}
+
+model OrderItem {
+  id                    String   @id @default(uuid())
+  orderId               String   @map("order_id")
+  productId             String   @map("product_id")
+  productNameSnapshot   String   @map("product_name_snapshot")
+  quantity              Int
+  unitPriceSnapshot     Int      @map("unit_price_snapshot")
+  discountAmount        Int      @default(0) @map("discount_amount")
+  lineTotal             Int      @map("line_total")
+  variantSnapshot       String?  @map("variant_snapshot")
+  customizationSnapshot String?  @map("customization_snapshot") // JSON: { size, sugar, ice, toppings }
+  notes                 String?
+
+  order                 Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product               Product  @relation(fields: [productId], references: [id])
+
+  @@map("order_items")
+}
+
+model Payment {
+  id                    String        @id @default(uuid())
+  orderId               String        @map("order_id")
+  method                PaymentMethod
+  provider              String?       // "TUNAI", "MIDTRANS_QRIS", "BCA_TRANSFER", "EDC_BCA"
+  providerTransactionId String?       @map("provider_transaction_id")
+  idempotencyKey        String        @unique @map("idempotency_key")
+  amount                Int           // Total paid in IDR
+  feeAmount             Int           @default(0) @map("fee_amount")
+  status                PaymentStatus @default(PENDING)
+  paidAt                DateTime?     @map("paid_at")
+  receivedAmount        Int?          @map("received_amount") // For cash tender
+  changeAmount          Int?          @map("change_amount")   // For cash change
+  createdAt             DateTime      @default(now()) @map("created_at")
+  updatedAt             DateTime      @updatedAt @map("updated_at")
+
+  order                 Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  paymentEvents         PaymentEvent[]
+  refunds               Refund[]
+
+  @@map("payments")
+}
+
+model PaymentEvent {
+  id                String    @id @default(uuid())
+  paymentId         String    @map("payment_id")
+  providerEventId   String?   @map("provider_event_id")
+  eventType         String    @map("event_type")
+  signatureVerified Boolean   @default(false) @map("signature_verified")
+  processingStatus  String    @default("PROCESSED") @map("processing_status")
+  receivedAt        DateTime  @default(now()) @map("received_at")
+  processedAt       DateTime? @map("processed_at")
+
+  payment           Payment   @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+
+  @@unique([paymentId, providerEventId])
+  @@map("payment_events")
+}
+
+model Refund {
+  id                String                @id @default(uuid())
+  orderId           String                @map("order_id")
+  paymentId         String                @map("payment_id")
+  requestedBy       String                @map("requested_by")
+  approvedBy        String?               @map("approved_by")
+  amount            Int                   // in IDR
+  reason            String
+  approvalStatus    RefundApprovalStatus  @default(PENDING) @map("approval_status")
+  providerRefundId  String?               @map("provider_refund_id")
+  executionStatus   RefundExecutionStatus @default(PENDING) @map("execution_status")
+  requestedAt       DateTime              @default(now()) @map("requested_at")
+  approvedAt        DateTime?             @map("approved_at")
+  completedAt       DateTime?             @map("completed_at")
+
+  order             Order                 @relation(fields: [orderId], references: [id])
+  payment           Payment               @relation(fields: [paymentId], references: [id])
+  requester         User                  @relation("RequestedRefunds", fields: [requestedBy], references: [id])
+  approver          User?                 @relation("ApprovedRefunds", fields: [approvedBy], references: [id])
+
+  @@map("refunds")
+}
+
+model PrintJob {
+  id                String         @id @default(uuid())
+  orderId           String         @map("order_id")
+  printerType       PrinterType    @map("printer_type")
+  printerIdentifier String?        @map("printer_identifier")
+  jobType           String         @default("INITIAL") @map("job_type") // "INITIAL" or "REPRINT"
+  status            PrintJobStatus @default(PENDING)
+  attempts          Int            @default(0)
+  idempotencyKey    String         @unique @map("idempotency_key")
+  errorMessage      String?        @map("error_message")
+  reprintedBy       String?        @map("reprinted_by")
+  reprintReason     String?        @map("reprint_reason")
+  createdAt         DateTime       @default(now()) @map("created_at")
+  printedAt         DateTime?      @map("printed_at")
+
+  order             Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("print_jobs")
+}
+
+model StockMovement {
+  id             String            @id @default(uuid())
+  productId      String            @map("product_id")
+  orderId        String?           @map("order_id")
+  movementType   StockMovementType @map("movement_type")
+  quantityChange Int               @map("quantity_change") // positive for restock, negative for sale
+  reason         String?
+  performedBy    String?           @map("performed_by")
+  createdAt      DateTime          @default(now()) @map("created_at")
+
+  product        Product           @relation(fields: [productId], references: [id])
+  order          Order?            @relation(fields: [orderId], references: [id])
+  performer      User?             @relation(fields: [performedBy], references: [id])
+
+  @@map("stock_movements")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String?  @map("user_id")
+  action     String   // e.g. "LOGIN", "SHIFT_OPEN", "REFUND_APPROVED", "PRICE_UPDATE"
+  entityType String   @map("entity_type")
+  entityId   String?  @map("entity_id")
+  details    String?  // JSON stringified details
+  ipAddress  String?  @map("ip_address")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  user       User?    @relation(fields: [userId], references: [id])
+
+  @@index([createdAt])
+  @@index([action])
+  @@map("audit_logs")
+}
+
+model PaymentProviderConfig {
+  id            String   @id @default(uuid())
+  providerName  String   @unique @map("provider_name")
+  isEnabled     Boolean  @default(true) @map("is_enabled")
+  isSandbox     Boolean  @default(true) @map("is_sandbox")
+  feePercentage Float    @default(0.7) @map("fee_percentage")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@map("payment_provider_configs")
+}
+
+model AppSetting {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  value       String
+  description String?
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("app_settings")
+}
